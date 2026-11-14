@@ -4,6 +4,8 @@ A dependency-free userscript that automatically selects the **highest supported,
 
 It selects a quality after the player is ready; it is **not a network filter** that prevents every above-cap startup request. Unknown or unsupported player paths are left unchanged, not treated as capped.
 
+**[Install yt4k in Tampermonkey](https://raw.githubusercontent.com/LyKhoris/yt4k/main/yt4k-1.2.0.user.js)** · [Installation and updates](#install)
+
 ## Platform support
 
 | Platform | Implemented path | Boundaries |
@@ -25,16 +27,42 @@ Reddit, X and Pornhub quality labels/IDs are not treated as actual heights. Thes
 
 ## Install
 
-1. Install a userscript manager such as [Tampermonkey](https://www.tampermonkey.net/) or [Violentmonkey](https://violentmonkey.github.io/).
-2. Open the raw userscript file:
-   `https://raw.githubusercontent.com/LyKhoris/yt4k/main/yt4k-1.2.0.user.js`
-3. Your manager should prompt you to install it. Confirm.
+### 1. Remove an old local copy, if present
 
-Or manually: create a new script in your manager and paste the contents of `yt4k-1.2.0.user.js`.
+If you previously pasted/imported yt4k manually, start clean for this installation test:
+
+1. Back up any custom code/configuration you want to keep (Tampermonkey Dashboard → Utilities → Export).
+2. Open Tampermonkey → **Dashboard → Installed userscripts**.
+3. Find **yt4k**, choose its trash/delete action, and confirm. Delete **only yt4k**, not Tampermonkey or unrelated scripts. This removes the browser-installed copy, not this GitHub repository.
+
+### 2. Install from the hosted URL
+
+1. Install/enable [Tampermonkey](https://www.tampermonkey.net/) if necessary. Follow its normal browser permission prompts; Chromium may require **Allow User Scripts** or Developer Mode ([official instructions](https://www.tampermonkey.net/faq.php?locale=en&q=Q209)).
+2. Click **[Install yt4k](https://raw.githubusercontent.com/LyKhoris/yt4k/main/yt4k-1.2.0.user.js)**. Use this hosted link rather than creating another manually pasted script.
+3. Review the version and supported-site permissions in Tampermonkey's installer, then choose **Install**. The current version is in [`package.json`](package.json); the filename's historical `1.2.0` does not determine the installed version.
+4. Confirm there is **exactly one enabled yt4k** entry in the dashboard. Reload any already-open supported video pages.
+
+If the link shows JavaScript instead of the installer, first check that Tampermonkey is enabled and has the necessary browser/site permissions. GitHub's raw cache can take a few minutes to reflect a new push; compare the header's `@version` with `package.json` before installing.
+
+### 3. Enable update detection and choose approval behavior
+
+The generated script contains both `@updateURL` and `@downloadURL`, pointing to the same stable hosted URL above. Tampermonkey checks its `@version` periodically and can retrieve a newer script automatically. No extra hosting, GitHub Release, or custom updater is required.
+
+In Tampermonkey's script/global settings:
+
+- Keep **update checking enabled** and choose a non-disabled check interval.
+- If you want to approve updates, disable **Automatic installation** while leaving checks enabled. Exact labels/settings vary by version; additional settings may require a different Config mode.
+- A popup/desktop notification for every update is **not guaranteed**. Use Tampermonkey's **Check for updates** action to check immediately, then review/install an available update.
+
+Do not edit the installed source during the installation/update test: local edits can disable automatic updates and can be overwritten when an update is accepted. See [Tampermonkey's update documentation](https://www.tampermonkey.net/documentation.php?locale=en&q=update_url).
+
+### Test an actual update
+
+First install the current hosted version and verify playback. An update-detection test then needs a **later, higher `@version`** published at the same URL. After that release, choose **Check for updates** (or wait for the configured interval) and verify the newer version is offered/installed according to your settings. Checking against the same installed version should correctly report no update; do not lower/edit the local version to simulate an update.
 
 ## Configuration
 
-Edit `config` near the beginning of the installed script:
+Edit `config` near the beginning of the installed script if you need customization. Source edits can interfere with automatic updates or be overwritten; leave defaults unchanged for the initial update test.
 
 | Constant     | Default | Description                                            |
 | ------------ | ------- | ------------------------------------------------------ |
@@ -51,7 +79,9 @@ npm test
 npm run check
 ```
 
-Edit `src/core.js` and `src/platforms/*.js`, then rebuild. The generated installable file retains the historical name `yt4k-1.2.0.user.js` so the existing installation URL stays valid; its metadata version is 1.3.0. Source configuration changes belong in `src/core.js`.
+Edit `src/core.js` and `src/platforms/*.js`, then rebuild. The generated installable file retains the historical name `yt4k-1.2.0.user.js` so the existing installation/update URL stays valid; its metadata version comes from `package.json`. Source configuration changes belong in `src/core.js`.
+
+To publish an update: increase `package.json`'s version, rebuild, run the checks above, then commit and push the source and generated script to `main`. Keep the download URL, `@name`, and `@namespace` stable. Tampermonkey follows version bumps on `main`, not GitHub Release notifications.
 
 Live evidence and limitations: [bundled script](docs/research/bundle-validation.md), [YouTube](docs/research/youtube-validation.md), [Reddit](docs/research/reddit-feasibility.md), [X](docs/research/x-feasibility.md), [Pornhub](docs/research/pornhub-feasibility.md). Fixture tests are not evidence of live 4K playback on every platform.
 

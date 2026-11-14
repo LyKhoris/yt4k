@@ -1,7 +1,9 @@
 // ==UserScript==
 // @name         yt4k
 // @namespace    https://localhost/yt-auto-max-quality
-// @version      1.3.0
+// @version      1.3.1
+// @updateURL    https://raw.githubusercontent.com/LyKhoris/yt4k/main/yt4k-1.2.0.user.js
+// @downloadURL  https://raw.githubusercontent.com/LyKhoris/yt4k/main/yt4k-1.2.0.user.js
 // @description  Automatically selects the highest supported video quality up to 2160p.
 // @author       you
 // @match        https://m.youtube.com/*

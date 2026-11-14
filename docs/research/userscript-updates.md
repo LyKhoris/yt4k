@@ -1,5 +1,12 @@
 # Tampermonkey updates for yt4k
 
+> Implemented afterward in **1.3.1**: the build now generates the explicit
+> stable update/download URLs. The user chose a clean removal/reinstall for
+> their own installation test; see the current [README instructions](../../README.md#install).
+> This implementation does not itself verify installed-manager update detection
+> or guarantee a prompt on every release. The original research below describes
+> the pre-implementation state and migration alternatives.
+
 Researched 2026-11-14. Recommendation only: no build, script, README,
 installation, or browser settings were changed.
 

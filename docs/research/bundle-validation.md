@@ -5,6 +5,14 @@ browser, not fresh browser profiles. No userscript manager was installed or
 reconfigured. Production source is bundled by `npm run build` into
 `yt4k-1.2.0.user.js` (metadata version 1.3.0).
 
+Update-enabled release **1.3.1** changes only the generated metadata/version,
+not the runtime body tested below. A direct comparison against the preceding
+Git revision verified the body after `==/UserScript==` is byte-for-byte
+unchanged. The new stable update/download metadata and preserved name/namespace
+have a regression test: **110 tests pass**; build consistency, syntax and diff
+checks pass. Native Tampermonkey installation/update detection remains the
+user's separate test, not a result claimed by these checks.
+
 ## Actual generated script, not a supplied quality command
 
 The generated file was copied to `/tmp/opencode`, read by the browser tool,

@@ -19,6 +19,16 @@ test('installable bundle compiles and declares only implemented platforms', () =
   assert.equal(source.match(/@version\s+(\S+)/)[1], version);
 });
 
+test('published script has stable update URLs and preserves installed identity', () => {
+  const source = fs.readFileSync('yt4k-1.2.0.user.js', 'utf8');
+  const url = 'https://raw.githubusercontent.com/LyKhoris/yt4k/main/yt4k-1.2.0.user.js';
+  const field = name => source.match(new RegExp(`^// @${name}\\s+(\\S+)`, 'm'))?.[1];
+  assert.equal(field('updateURL'), url);
+  assert.equal(field('downloadURL'), url);
+  assert.equal(field('name'), 'yt4k');
+  assert.equal(field('namespace'), 'https://localhost/yt-auto-max-quality');
+});
+
 test('the actual four-platform bundle dispatches only Pornhub on its host', () => {
   const source = fs.readFileSync('yt4k-1.2.0.user.js', 'utf8');
   const intervals = [];

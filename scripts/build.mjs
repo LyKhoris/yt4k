@@ -9,6 +9,7 @@ const files = (await readdir(resolve(root, 'src/platforms'))).filter(file => fil
 const platformSources = await Promise.all(files.map(file => read(`src/platforms/${file}`)));
 // Keep the existing installation URL: userscript managers update by metadata version.
 const output = resolve(root, 'yt4k-1.2.0.user.js');
+const distributionURL = 'https://raw.githubusercontent.com/LyKhoris/yt4k/main/yt4k-1.2.0.user.js';
 const hosts = new Set();
 for (const source of platformSources) {
   const declaration = source.match(/hosts:\s*\[([^\]]+)\]/);
@@ -20,6 +21,8 @@ const metadata = [
   '// @name         yt4k',
   '// @namespace    https://localhost/yt-auto-max-quality',
   `// @version      ${version}`,
+  `// @updateURL    ${distributionURL}`,
+  `// @downloadURL  ${distributionURL}`,
   '// @description  Automatically selects the highest supported video quality up to 2160p.',
   '// @author       you',
   ...[...hosts].sort().map(host => `// @match        https://${host}/*`),
