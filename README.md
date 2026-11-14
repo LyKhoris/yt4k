@@ -1,5 +1,7 @@
 # yt4k
 
+Automatically selects the highest supported video resolution, up to 4K (2160p), so you don't have to change quality manually.
+
 ## Supported platforms
 
 - YouTube
@@ -9,8 +11,4 @@
 
 ## Install
 
-1. Install [Tampermonkey](https://www.tampermonkey.net/).
-2. Delete any old **yt4k** copy from its dashboard.
-3. Click [Install yt4k](https://raw.githubusercontent.com/LyKhoris/yt4k/main/yt4k-1.2.0.user.js), confirm installation, and reload your video pages.
-
-Keep update checking enabled in Tampermonkey. Disable **Automatic installation** if you want to approve updates.
+[Install yt4k](https://raw.githubusercontent.com/LyKhoris/yt4k/main/yt4k-1.2.0.user.js)
