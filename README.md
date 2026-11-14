@@ -1,18 +1,27 @@
 # yt4k
 
-A userscript that automatically sets the YouTube player to the **highest available resolution, capped at 4K (2160p)**.
+A dependency-free userscript that automatically selects the **highest supported, exposed video resolution with a height of at most 2160 pixels**.
 
-No more manually opening the settings gear and picking a quality on every video — `yt4k` detects the available levels and jumps to the best one that is 2160p or lower (it will not bump you to 8K).
+It selects a quality after the player is ready; it is **not a network filter** that prevents every above-cap startup request. Unknown or unsupported player paths are left unchanged, not treated as capped.
+
+## Platform support
+
+| Platform | Implemented path | Boundaries |
+| --- | --- | --- |
+| YouTube | Player API, then scoped Settings → Quality fallback | Landscape watch videos; English menu fallback; portrait/unknown dimensions and embeds skipped. |
+| Reddit | Native packaged-MP4 players on `www.reddit.com`, using actual source dimensions and the player's own setter | Feed/post navigation and multiple players; HLS and inaccessible controllers skipped. No persistent Reddit quality preference is written. |
+| X | Owned HLS player API, using actual variant dimensions; no hover/menu required | Recognized responsive-web players only. The local menu may still say Auto despite fixed engine selection. Other player shapes are skipped. |
+| Pornhub | Desktop MGP 9.2.7's owned quality API on `www.pornhub.com/view_video.php` | Final bundle selected and decoded the live sample's 1080p maximum; real-wrapper MP4/HLS harness verified at 2160p. Unknown/remote ladders, other versions, native HLS, ads and embeds skipped. |
+
+Reddit, X and Pornhub quality labels/IDs are not treated as actual heights. These adapters use verified rendition dimensions instead of trusting labels. The cap remains **literal height ≤2160**; a 2160×3840 portrait rendition is therefore excluded.
 
 ## Features
 
-- Automatically selects the best quality ≤ 2160p (4K cap).
-- Two-tier strategy:
-  1. Uses YouTube's internal player API (`getAvailableQualityLevels` / `setPlaybackQualityRange`).
-  2. Falls back to driving the real settings menu when the API is ignored (which YouTube often does).
-- Re-applies on every video change (`yt-navigate-finish`, `yt-page-data-updated`).
-- Works on `www.youtube.com` and `m.youtube.com`; skipped on embeds.
-- Zero dependencies, `@grant none`.
+- Site-specific adapters with bounded retries and source-change handling.
+- Verifies selection instead of treating a successful click as success.
+- Leaves unknown, locked, above-cap and unsupported variants alone.
+- Zero runtime dependencies or privileged GM APIs (`@grant none`).
+- Reddit, X and Pornhub need page-world injection for their guarded player access. Metadata requests this explicitly; content-world fallback cannot provide that support.
 
 ## Install
 
@@ -25,23 +34,35 @@ Or manually: create a new script in your manager and paste the contents of `yt4k
 
 ## Configuration
 
-Edit the constants at the top of the script:
+Edit `config` near the beginning of the installed script:
 
 | Constant     | Default | Description                                            |
 | ------------ | ------- | ------------------------------------------------------ |
-| `DEBUG`      | `true`  | Logs diagnostics to the console with `[YT-AUTO-MAX]`.  |
-| `MAX_HEIGHT` | `2160`  | Highest resolution allowed (4K cap). Lower it for 1080p.|
+| `debug`      | `false` | Logs technical diagnostics to the console with `[yt4k]`. |
+| `maxHeight`  | `2160`  | Highest selected rendition height. Set to `1080` for a lower ceiling. |
 
-## How it works
+## Development
 
-1. Waits for `#movie_player` and for the quality levels to populate.
-2. Tries the internal player API to set the best quality.
-3. Verifies the change took effect; if it reports `auto`/unchanged, it opens the settings menu, chooses **Quality**, parses the listed resolutions, and clicks the highest one ≤ `MAX_HEIGHT`.
+Requires Node.js 20+; no dependency installation is needed.
+
+```sh
+npm run build
+npm test
+npm run check
+```
+
+Edit `src/core.js` and `src/platforms/*.js`, then rebuild. The generated installable file retains the historical name `yt4k-1.2.0.user.js` so the existing installation URL stays valid; its metadata version is 1.3.0. Source configuration changes belong in `src/core.js`.
+
+Live evidence and limitations: [bundled script](docs/research/bundle-validation.md), [YouTube](docs/research/youtube-validation.md), [Reddit](docs/research/reddit-feasibility.md), [X](docs/research/x-feasibility.md), [Pornhub](docs/research/pornhub-feasibility.md). Fixture tests are not evidence of live 4K playback on every platform.
+
+Before a broad release, run the [installed-manager validation checklist](docs/research/manager-validation.md); browser-assisted page-world injection is not the same as an installed userscript test.
 
 ## Notes
 
-- YouTube changes its DOM frequently. If the menu fallback breaks, the API path may still work, and vice versa.
-- The script runs only once per video ID and re-runs on navigation.
+- Site DOM and private APIs can change. Adapters intentionally stop selecting when ownership or dimensions cannot be verified.
+- Forced maximum quality can increase bandwidth, battery usage and buffering.
+- Browser tests do not establish all userscript-manager/browser combinations. Page-world injection must be allowed by the manager and site.
+- Mobile, embeds, native HLS, error recovery and every fullscreen variant are not universally covered.
 
 ## License
 

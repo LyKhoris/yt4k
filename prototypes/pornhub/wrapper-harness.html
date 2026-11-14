@@ -1,0 +1,51 @@
+<!doctype html>
+<meta charset="utf-8">
+<title>Non-explicit MGP interoperability harness</title>
+<style>body { background: #18202a; color: white; font: 16px sans-serif; } .mainPlayerDiv { width: 640px; height: 360px; }</style>
+<h1>Non-explicit MGP interoperability harness</h1>
+<p>Generated solid-colour media. This is not a live Pornhub watch page.</p>
+<div class="original mainPlayerDiv"><div class="playerFlvContainer" id="playerDiv_test"></div></div>
+<script src="/desktop-player.min.js"></script>
+<script>
+  const format = new URLSearchParams(location.search).get('format') === 'hls' ? 'hls' : 'mp4';
+  const dimensions = [[426, 240], [1280, 720], [3840, 2160]];
+  const mediaDefinition = dimensions.map(([width, height]) => ({
+    width, height, quality: String(height), format,
+    videoUrl: new URL(`/media/${height}.${format === 'hls' ? 'm3u8' : 'mp4'}`, location.href).href,
+    defaultQuality: height === 240,
+  }));
+  MGP.createPlayer('playerDiv_test', {
+    locale: 'en',
+    autoplay: { enabled: false },
+    priority: format,
+    libraryCdn: { useExternal: false, useHlsLight: true },
+    mainRoll: { mediaDefinition, title: 'Generated colour', duration: 8, vertical: false },
+    features: { chromecast: false },
+  });
+  window.harnessRead = () => {
+    const player = MGP.players.playerDiv_test;
+    const video = document.querySelector('#playerDiv_test video');
+    return {
+      format, sourceReady: player.isSourceReady(), ready: player.isReady(),
+      qualities: player.quality.get({ list: true }), selected: player.quality.get(),
+      width: video?.videoWidth, height: video?.videoHeight,
+      readyState: video?.readyState, paused: video?.paused, time: video?.currentTime,
+      events: window.harnessEvents || [],
+    };
+  };
+</script>
+<script src="/core.js"></script>
+<script src="/adapter.js"></script>
+<script>
+  if (new URLSearchParams(location.search).has('auto')) {
+    YT4K.config.debug = true;
+    const cap = Number(new URLSearchParams(location.search).get('cap'));
+    if (cap > 0) YT4K.config.maxHeight = cap;
+    window.harnessEvents = [];
+    YT4K.log = (...args) => window.harnessEvents.push(args);
+    YT4K.warn = (...args) => window.harnessEvents.push(args);
+    YT4K.start('www.pornhub.com');
+    MGP.players.playerDiv_test.mute();
+    MGP.players.playerDiv_test.play();
+  }
+</script>

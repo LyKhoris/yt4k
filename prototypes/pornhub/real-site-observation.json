@@ -1,0 +1,100 @@
+{
+  "date": "2026-11-14",
+  "scope": "Actual public watch runtime, not a harness. Content IDs, URLs, titles and storage values omitted.",
+  "privacy": { "pageOpacityZeroBeforePlayback": true, "videosHiddenAndMuted": true, "imagesBlocked": true, "screenshotsOrFrameCapture": false },
+  "runtime": {
+    "playerName": "desktop", "playerVersion": "9.2.7", "libraryName": "hlsjs", "libraryVersion": "1.6.15",
+    "registryCount": 1, "rootKeyOwnsWrapper": true, "settingsPlayerIdMatchesRoot": true,
+    "contentVideoCount": 1, "videoOwnedByRoot": true,
+    "settingsSourcesRedacted": true, "keyedInspectOriginalHasDimensions": true,
+    "offeredQualities": [720, 480, 240]
+  },
+  "blockedMediaDiscovery": { "sourceReady": false, "readyState": 0, "width": 0, "height": 0, "adReady": false, "adStarted": false },
+  "runs": [
+    {
+      "mode": "Automatic selection from a nonpersistent lower-quality test precondition",
+      "precondition": { "selected": 240, "decodedWidth": 427, "decodedHeight": 240 },
+      "maxHeight": 2160, "requestedWidth": 1280, "requestedHeight": 720,
+      "selected": 720, "decodedWidth": 1280, "decodedHeight": 720,
+      "readyState": 4, "paused": false, "mediaTime": 17.743449, "sourceReady": true,
+      "requestedAndEffectiveEvents": true, "qualityPreferenceInitiallyPresent": false, "qualityPreferenceUnchanged": true
+    },
+    {
+      "mode": "Document-start source injection before ordinary readiness",
+      "maxHeight": 2160, "requestedHeight": 720, "selected": 720,
+      "decodedWidth": 1280, "decodedHeight": 720, "readyState": 4,
+      "paused": false, "mediaTime": 8.245692, "requestedAndEffectiveEvents": true,
+      "qualityPreferenceInitiallyPresent": false, "qualityPreferenceUnchanged": true
+    },
+    {
+      "mode": "Later nonpersistent quality override respected",
+      "selected": 480, "decodedWidth": 852, "decodedHeight": 480,
+      "readyState": 4, "mediaTime": 51.266084, "newAutomaticRequests": 0, "qualityPreferenceUnchanged": true
+    },
+    {
+      "mode": "Current adapter with configured lower literal-height cap",
+      "maxHeight": 240, "requestedWidth": 426, "requestedHeight": 240,
+      "selected": 240, "decodedWidth": 426, "decodedHeight": 240,
+      "readyState": 4, "paused": false, "mediaTime": 59.478405,
+      "requestedAndEffectiveEvents": true, "qualityPreferenceInitiallyPresent": false, "qualityPreferenceUnchanged": true
+    },
+    {
+      "mode": "Final current adapter, default cap, switching back from decoded 240",
+      "maxHeight": 2160, "requestedWidth": 1280, "requestedHeight": 720,
+      "selected": 720, "decodedWidth": 1280, "decodedHeight": 720,
+      "readyState": 4, "paused": false, "mediaTime": 115.334037,
+      "requestedAndEffectiveEvents": true, "qualityPreferenceInitiallyPresent": false, "qualityPreferenceUnchanged": true
+    }
+  ],
+  "boundaries": [
+    "Earlier module-only runs above offered at most 720; finalBundleSmoke below is a separate 1080 site response. No live-site 4K claim.",
+    "No login, age, payment, region, CAPTCHA or identity gate was bypassed.",
+    "No ad control clicked; observed adReady and adStarted were false.",
+    "Only the quality preference field was compared in memory; unrelated storage was not asserted unchanged.",
+    "Userscript-manager delivery and final test/build checks remain parent-session validation; exact generated bundle smoke is recorded below."
+  ],
+  "finalBundleSmoke": {
+    "date": "2026-11-14",
+    "file": "yt4k-1.2.0.user.js",
+    "bytes": 29208,
+    "sha256": "23a14e4ea13b4d21eed99f303b3225d76a32447baa4ca3eb61ff9309e8e6bb47",
+    "scope": "Exact generated four-adapter file, unmodified implementation and defaults, on an actual public watch page.",
+    "defaultMaxHeight": 2160,
+    "defaultDebug": false,
+    "injectedBeforePlayerInitialization": true,
+    "normalTerminalHostDispatchUnchanged": true,
+    "observerReadOnlyAndSeparate": true,
+    "initialSelectedBeforeReadiness": 720,
+    "offeredLevels": [
+      { "quality": 1080, "width": 1920, "height": 1080, "locked": false, "disabled": false },
+      { "quality": 720, "width": 1280, "height": 720, "locked": false, "disabled": false },
+      { "quality": 480, "width": 854, "height": 480, "locked": false, "disabled": false },
+      { "quality": 240, "width": 426, "height": 240, "locked": false, "disabled": false }
+    ],
+    "eligibleMaximumHeight": 1080,
+    "selectedAfterReadiness": 1080,
+    "decodedWidth": 1920,
+    "decodedHeight": 1080,
+    "readyState": 4,
+    "paused": false,
+    "mediaTime": 16.516703,
+    "sourceReady": true,
+    "registryCount": 1,
+    "keyedWrapperAndSettingsOwner": true,
+    "oneRootOwnedVideo": true,
+    "playerVersion": "9.2.7",
+    "libraryName": "hlsjs",
+    "libraryVersion": "1.6.15",
+    "qualityPreferenceInitiallyPresent": false,
+    "qualityPreferenceUnchanged": true,
+    "pageHidden": true,
+    "videoHidden": true,
+    "muted": true,
+    "imagesBlocked": true,
+    "adReady": false,
+    "adStarted": false,
+    "screenshotsOrFrameCapture": false,
+    "ownBrowserSessionDeleted": true,
+    "limits": "No live 4K, native HLS/MP4, ad-transition or userscript-manager-delivery claim. Parent owns full test/build checks."
+  }
+}

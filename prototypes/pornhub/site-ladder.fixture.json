@@ -1,0 +1,16 @@
+{
+  "scope": "Anonymous first-party watch HTML and technical HLS master text; no live player or decoded site media. URLs and content fields omitted.",
+  "definitions": [
+    { "quality": "1080", "width": 1920, "height": 1080, "format": "hls" },
+    { "quality": "240", "width": 426, "height": 240, "format": "hls" },
+    { "quality": "480", "width": 852, "height": 480, "format": "hls" },
+    { "quality": "720", "width": 1280, "height": 720, "format": "hls" },
+    { "quality": [], "width": 1920, "height": 1080, "format": "mp4", "remote": true }
+  ],
+  "masters": [
+    { "quality": "1080", "status": 200, "resolutions": [{ "width": 1920, "height": 1080 }] },
+    { "quality": "240", "status": 200, "resolutions": [{ "width": 427, "height": 240 }] },
+    { "quality": "480", "status": 200, "resolutions": [{ "width": 853, "height": 480 }] },
+    { "quality": "720", "status": 200, "resolutions": [{ "width": 1280, "height": 720 }] }
+  ]
+}
